@@ -1,4 +1,4 @@
-apartment_rents
+german_apartment_rentals
 ==============================
 
 Project objective is to predict the rent of apartments in the different geographical divisions of germany
