@@ -22,7 +22,7 @@ We explored individual feature
 - String similarities of feature values
 - Information on data wrangling steps could be reference here: [data_wrangling](http://localhost:8888/notebooks/Capstones/Capstone_2/german_apartment_rentals/notebooks/A_data_wrangling_final.ipynb). 
 
-![State distribution of listings](https://github.com/femi-lujo/german_apartment_rentals/blob/practice/reports/figures/state_listings_distr.png)
+![State distribution of listings](https://github.com/femi-lujo/german_apartment_rentals/blob/final/reports/figures/state_listings_distr.png)
 - 
 ## 3. Exploratory Data Analysis
 The focus of exploratory data analysis was to investigate the relationship between the base rent and other variables, as a means to pre-select features for modelling. Guessing that location factors would highly influence base rent, new features were created that aggregated information at each location level. In order of resolution (from lowest to highest), the location levels include the state, city or town, municipality and zip code. This meant
