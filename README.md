@@ -87,7 +87,7 @@ A 5-fold cross-validation approach was used to simultaneously train and assess f
 
 The performance of a baseline linear regression model is shown below:
 
-![Baseline model performance]()
+![Baseline model performance](./reports/figures/baseline_scores.png)
 
 The solid r2 and mae scores of 0.75 and €147.29, respectively, suggested that the features were useful in predicting rent.
 
