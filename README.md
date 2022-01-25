@@ -2,7 +2,7 @@
 ## 1. Synopsis
 After investing much time, energy and money to prepare and stage an apartment for rent, the last thing a landlord wants to see is for the apartment to sit empty for a month or more before clearing. Time is money, and the longer a property remains on the market, the worse-off the financial performance of the asset. Landlords are keenly aware of this issue and strive to set the appropriate rent, which plays an outsized role in determining sales velocity. 
 
-The goal of this project was to explore the asset-specific features and macro-economic factors that influenced apartment rents and to create a rent prediction model that could assist landlords in setting their apartment rents in Germany. From analyzing the data, it was determined that the size of the apartment, the cost of electricity and internet, as well as location were strongly positively associated with rent. Furthermore, the XGBoost model performed the best in being able to predict the rent of apartments, with an r-squared score of 0.866  and mean absolute error of €90.34. 
+The goal of this project was to explore the asset-specific features and macro-economic factors that influenced apartment rents and to create a rent prediction model that could assist landlords in setting their apartment rents in Germany. From analyzing the data, it was determined that the size of the apartment, the cost of electricity and internet, and the location, were strongly positively associated with rent. Furthermore, the XGBoost model performed the best in being able to predict the rent of apartments, with an r-squared score of 0.866  and mean absolute error of €90.34. 
 
 The final report for the project can be accessed through the link below:
 
@@ -16,7 +16,7 @@ The primary dataset used for our analysis was from Kaggle.ca and was originally 
 ## 2. Data Wrangling
 [Data Cleaning Notebook](./notebooks/A_data_wrangling_final.ipynb)
 
-The rentals dataset required substantial cleaning. We dealt with such issues as missing values, outliers, duplicate entries and inconsistent category names, to name a few. Missing values were resolved on a case-by-case basis. Entire features were dropped in some cases, while various imputation strategies were used for others. Similarly, outliers led to the various skewed distributions observed in the data. Some outlier values were obviously inaccurate, and these were either dropped or imputed with a more realistic value for the feature. Duplicate rows were dropped and inconsistent category names were corrected using various approaches, including string similarity methods. 
+The rentals dataset required substantial cleaning. We dealt with such issues as missing values, outliers, duplicate entries and inconsistent category names, to name a few. Missing values were resolved on a case-by-case basis. Entire features were dropped in some cases, while various imputation strategies were used for others. Similarly, outliers led to the various skewed distributions observed in the data. Some outlier values were obviously inaccurate and were either dropped or imputed with more realistic values. Duplicate rows were dropped and inconsistent category names were corrected using various approaches, including string similarity methods. 
 
 ## 3. Exploratory Data Analysis
 [EDA Notebook](./notebooks/B_exploratory_data_analysis_final.ipynb)
@@ -25,7 +25,7 @@ Emphasis was placed on finding relationships between rent and other variables. C
 
 Note that some of the figures have base rent as a feature. This is identical to rent. 
 
-A quick review was done to understand the representativeness of the dataset in terms of the the number of listings per state. The number of listings per state was compared to the population per state to verify that they were somewhat comparable. This was observed to be the case as shown below:
+A quick review was done to understand the representativeness of the dataset in terms of the the number of listings per state. The number of listings per state was compared to the population per state to verify that they were somewhat comparable. This was observed to be the case, as shown below:
 
 ![State distribution of listings](./reports/figures/state_listings_pop_distr.png)
 
@@ -35,9 +35,9 @@ The highly skewed nature of the rent distribution was not surprising, and sugges
 
 ![Rent distribution](./reports/figures/baseRent_distribution.png)
 
-The over €150 difference between median rent(€490) and mean rent(€650) implied the existence of consequential outliers that informed our use of median rent for aggregating the dataset. 
+The over €150 difference between median rent(€490) and mean rent(€650) implied the existence of consequential outliers. This informed the adoption of median values for aggregations. 
 
-Luxury and sophisticated apartments appeared to command higher rent as shown in the boxplot below:
+Luxury and sophisticated apartments appeared to command higher rents, as shown in the boxplot below:
 
 ![Quality](./reports/figures/qual_rent.png)
 
@@ -74,7 +74,7 @@ Pre-processing was fairly straightforward: the numerical features were scaled af
 
 ### a. Metrics
 
-The r-squared (r2) score and the mean absolute error (mae) score were chosen as the preferred assessment metrics. The r2 score of a model provided an understanding of the proportion of variation in the rent values attributable to the model. The mae score of a model provided an understanding of the magnitude of errors that resulted from applying our model. The mae score was chosen rather than the root-mean-square-error score because mae was less influenced by outliers, which were identified previously. Together, these two metrics were incorporated into the model assessment strategy.
+The r-squared (r2) score and the mean absolute error (mae) score were chosen as the preferred assessment metrics. The r2 score of a model provided an understanding of the proportion of variation in the rent values attributable to the model. The mae score of a model provided an understanding of the magnitude of errors that resulted from applying our model. The mae score was chosen rather than the root-mean-square-error score because mae was less influenced by outliers, which were previously identified as an issue with the dataset. Together, these two metrics were incorporated into the model assessment strategy.
 
 ### b. Training and test set
 The dataset was divided into a training and test set with a 70%:30% proportion, respectively.
@@ -97,7 +97,7 @@ The solid r2 and mae scores of 0.75 and €147.29, respectively, suggested that 
 
 ### a. Model selection
 
-Knowing that the test scores to beat were an r2 score of 0.75 and a mae of €147.29, two linear algorithms (lasso regression and ridge regression) and two tree-induction algorithms (random forest and XGBoost) were trialed. With each algorithm, cross-validation, feature selection and hyperparameter were used to improve performance. 
+Knowing that the test scores to beat were an r2 score of 0.75 and a mae of €147.29, two linear algorithms (lasso regression and ridge regression) and two tree-induction algorithms (random forest and XGBoost) were trialed. With each algorithm, cross-validation, feature selection and hyperparameter tuning were used to improve performance. 
 
 ![R2 Scores](./reports/figures/r2_scores.png)
 
