@@ -6,7 +6,7 @@ The goal of this project was to explore the asset-specific features and macro-ec
 
 The final report for the project can be accessed through the link below:
 
-[Final Report](./reports/rent_data_analysis_report)
+[Final Report](./reports/rent_data_analysis_report.pdf)
 
 ### a. Data
 The primary dataset used for our analysis was from Kaggle.ca and was originally scraped from Immoscout24 - the biggest real estate website in Germany. The dataset comprised of over 268,000 rental listings and 49 features. The rentals data set was augmented with a state-wide macro-economic dataset extracted from Wikipedia. Each state was described by four main features, including its area, 2019 population, Human Development Index and GDP per capital in 2018. Datasets can be accessed through the links below:
@@ -68,7 +68,7 @@ Similar to living space, the relationship between service charge and rent was st
 ![Service Rent Locations](./reports/figures/ServiceCharge_rent_all.png)
 
 ## 4. Data Pre-processing and Baseline Model Creation
-[Data Preprocessing Notebook](./notebooks/C_pre-processing_final.ipynbb)
+[Data Preprocessing Notebook](./notebooks/C_pre-processing_final.ipynb)
 
 Pre-processing was fairly straightforward: the numerical features were scaled after missing values were imputed with median values. The missing values of the categorical features were already coded with an ‘unknown’ identifier during wrangling, so the only step required for them was dummy encoding.
 
@@ -124,7 +124,6 @@ The following features appeared in the the top 20 most important features list f
 One concern with the XGBoost model was the distribution of points in the residual plot when used for predictions of the test set rents. As shown below, even though the histogram of residuals showed a clustering around 0, the plot of actual rents versus residuals showed an upward trend of residual values with increasing rents. The model is therefore unlikely to produce useful predictions for rents above €20,000.
 
 ![Residual Plots](./reports/figures/residual_plots.png)
-
 
 ## 7. Future Improvements
 - This model will be challenged post-COVID. It is widely known that the real estate market has transformed in light of the pandemic. The last sample for the dataset was retrieved in February 2020, prior to COVID restrictions. A more recent dataset would be more appropriate for a post-COVID world.
