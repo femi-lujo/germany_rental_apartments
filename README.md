@@ -1,48 +1,68 @@
-# Determining the Rent to Charge for An Apartment in Germany
+![Title](./reports/figures/cover_photo_title.png)
 ## 1. Introduction
-After investing much time, energy and money to prepare and stage an apartment for rent, the last thing a landlord wants to see is for the apartment to sit empty for a month, two months or more before the property clears. In real estate, as in other industries, time is money, and the longer a property remains on the market, the worse-off the financial performance of the asset. For one, expenses such as mortgage, property tax and heat still require payment regardless of whether or not the apartment is occupied.  An unrented property also draws suspicion from prospective tenants if it sits on the market for too long. Tenants may wonder about the hidden issues associated with such a property for it to stay so long on the market. Landlords are keenly aware of these concerns and strive to set the appropriate price for a unit. They may result to offering incentives, such as a month's free rent, or furniture, when things start getting desperate. Eventually, the landlord is forced to reduce the rent, and at times, do so at a price below monthly expenses, such that the property generates losses. 
-
-The rent of an apartment that can be supported by the market depends on a wide variety of factors. Some factors are specific to the apartment, while others relate to the macro-economic conditions of the location in which the apartent is situated. These factors will examined in an effort to develop a rudimentary model that can assist a landlord in properly pricing an apartment.
+After investing much time, energy and money to prepare and stage an apartment for rent, the last thing a landlord wants to see is for the apartment to sit empty for a month or more before clearing. Time is money, and the longer a property remains on the market, the worse-off the financial performance of the asset. Landlords are keenly aware of this issue and strive to set the appropriate rent, which plays an outsized role in determining sales velocity. 
 
 ### a. Project Objective
-The goal of this project is to explore the asset-specific features and macro-economic factors that influence the rent stipulated for an apartment in an effort to create a rudimentary model that can assist landlords in setting their apartment rents in Germany.
+The goal of this project is to explore the asset-specific features and macro-economic factors that influence apartment rents and to create a rent prediction model that can assist landlords in setting their apartment rents in Germany.
+The final report for the project can be accessed through the link below:
+
+[Final Report](./reports/rent_data_analysis_report)
 
 ### b. Data
-The primary dataset used for our analysis was from Kaggle.ca. The data was originally scraped from Immoscout24 - the biggest real estate website in Germany. Immoscout24 lists both properties for rent and for sale, although only rental information was included with the dataset. The dataset (downloaded as a csv file) had over 268,000 rental listings, scraped on three days - September 22, 2018; May 10, 2019; and October 08, 2019 - such that the variation of market conditions could be analyzed over time. Each listing was described by 49 features comprising of location data, data on monthly expenses including rent, asset-specific data and time data. While there were initially more numerical features than categorical ones, we ended up with mostly categorical features after cleaning the dataset. The Kaggle dataset can be accessed here [dataset](https://www.kaggle.com/corrieaar/apartment-rental-offers-in-germany).
+The primary dataset used for our analysis was from Kaggle.ca and was originally scraped from Immoscout24 - the biggest real estate website in Germany. The dataset comprised of over 268,000 rental listings and 49 features. The rentals data set was augmented with a state-wide macro-economic dataset extracted from Wikipedia. Each state was described by four main features, including its area, 2019 population, Human Development Index and GDP per capital in 2018. Datasets can be accessed through the links below:
+> * [Kaggle dataset](https://www.kaggle.com/corrieaar/apartment-rental-offers-in-germany)
+> * [Wikipedia - German State Infos](https://en.wikipedia.org/wiki/States_of_Germany)
 
-The primary dataset was augmented by a state-wide macro-economic dataset extracted from Wikipedia. Each state was described by four main features such as its area, 2019 population, Human Development Index and GDP per capital in 2018. 
 
+## 2. Data Wrangling
+[Data Cleaning Notebook](./notebooks/A_data_wrangling_final.ipynb)
 
-## 2. Data Aquisition and Cleaning
-Acquiring data was relatively straightforward and consisted of importing the Kaggle csv file, as well as importing the Wikipedia dataset to the notebook from the related web link. Cleaning the data was more challenging, especially on the rental listings dataset. Missing values, features with many categories, text features, (log-transformation) outliers, duplicate entries, cross-field valdiation of aggregation features, inconsistent category names, hyphenated values, and data leakage, were challenges that were resolved during the data cleaning process. Data definition - making sure that features had the appropriate datatype. Modelling base rent instead of total rent. The intent of data cleaning was to create a final dataset that was reflective of the ground truth. 
-We explored individual feature
-- Distribution of categorical features with barplots
-- Distribution of numerical features with histograms and box plots
-- Went from a shape of 268,859 x 49 to 267,690 x 30.
-- String similarities of feature values
-- Information on data wrangling steps could be reference here: [data_wrangling](http://localhost:8888/notebooks/Capstones/Capstone_2/german_apartment_rentals/notebooks/A_data_wrangling_final.ipynb). 
+The rentals dataset required substantial cleaning. We dealt with such issues as missing values, outliers, duplicate entries and inconsistent category names, to name a few. Missing values were resolved on a case-by-case basis. Entire features were dropped in some cases, while various imputation strategies were used for others. Similarly, outliers led to the various skewed distributions observed in the data. Some outlier values were obviously inaccurate, and these were either dropped or imputed with a more realistic value for the feature. Duplicate rows were dropped and inconsistent category names were corrected using various approaches, including string similarity methods. 
 
-![State distribution of listings](./reports/figures/state_listings_distr.png)
-- 
 ## 3. Exploratory Data Analysis
-The focus of exploratory data analysis was to investigate the relationship between the base rent and other variables, as a means to pre-select features for modelling. Guessing that location factors would highly influence base rent, new features were created that aggregated information at each location level. In order of resolution (from lowest to highest), the location levels include the state, city or town, municipality and zip code. This meant
-- aggregation at the location levels of rentals dataset
--   aggregating by medians instead of means due to the skewed nature of most variables
-- review of the influence of time features
-- review of the influence of numerical features pertaining to the rentals dataset
-- review of the influence of categorical features
-- review of the influence of state wide features
-- review of the influence of state density features
+[EDA Notebook](./notebooks/B_exploratory_data_analysis_final.ipynb)
+
+Emphasis was placed of finding relationships between rent and other variables. Correlated features would selected for modelling rent. New features were created and explored to examine their relationship with rent. Most of these new features were created by aggregating the numerical features at the different location levels (i.e. the zip code, municipality, city/town, and state levels). Median values were computed for the numerical features per location level. Some of these new features showed a solid relationship with rent. 
+
+Note that some of the figures have base rent as a features. This is identical to rent. 
+
+A quick review was done to understand the representativeness of the dataset in terms of the the number of listings per state. The number of listings per state was compared to the population per state to verify that they were somewhat comparable. This was observed to be the case as shown below:
+
+![State distribution of listings](./reports/figures/state_listings_pop_distr.png)
+
+Nordhein Westfalen had the highest population and the most number of listings. Saarland and Bremen had the lowest populations and the least number of listings. 
+
+The highly skewed nature of the rent distribution was not surprising, and suggested the presence of different property classes. The main qualitative factors captured in the dataset were the interior quality and the architectural style of apartment.
+
+![Rent distribution](./reports/figures/baseRent_distribution.png)
+
+The over €150 difference between median rent(€490) and mean rent(€650) implied the existence of consequential outliers that informed the use of median rent for aggregating the dataset. 
+
+Luxury and sophisticated apartments appeared to command higher rent as shown in the boxplot below:
+
+![Quality](./reports/figures/qual_rent.png)
+
+Similarly, penthouses, lofts, maisonettes, and terraced_flats appeared to command higher rents, especially when compared to regular apartments. Half basements were observed to command the lowest rents, as shown in the boxplot below:
+
+![Type of Flat](./reports/figures/flat_rent.png)
+
+Aggregating rents at the state level provided an instructive perspective on the state rental market. 
 
 ![Heatmaps](./reports/figures/map.png)
+
+Apartments in Hamburg and Berlin commanded the highest rents on average, followed by Bayern, Baden-Wurttenberg and Hessen. Sachsen-Anhalt and Thuringen commanded the lowest average rents. Interestingly, Hamburg and Berlin also had offered apartments with higher living space on average, although Baden-Wurttenberg had the most spacious apartments on average. 
+
+
 ![Living Space](./reports/figures/livingSpace_rent.png)
 ![Living Space Locations](./reports/figures/LivingSpace_rent_all.png)
 ![Service Rent](./reports/figures/service_rent.png)
 ![Service Rent Locations](./reports/figures/service_rent_all.png)
-![Quality](./reports/figures/qual_rent.png)
-![Type of Flat](./reports/figures/flat_rent.png)
+
+
 - 
 ## 4. Data Pre-processing and Baseline Model Creation
+[Data Preprocessing Notebook](./notebooks/C_pre-processing_final.ipynbb)
+
 - Pre-processing step was to prepare the data and create a baseline model.
 - Most imputation of numerical values
 - Encoding of categorical features
@@ -51,12 +71,20 @@ The focus of exploratory data analysis was to investigate the relationship betwe
 - Creating a baseline model
 - 
 ## 5. Model Optimization and Selection
+[Model Optimization Notebook](./notebooks/D_modelling_final.ipynb)
+
 - Trialing other ways to improve the performance of the baseline model
 - Cross-validation and dealing with overfitting
 - Linear algorithms and tree-induction alogrithms
 - Hyperparameter tuning
 - Feature importance
 - Performance
+
+![R2 Scores](./reports/figures/r2_scores.png)
+![MAE Scores](./reports/figures/mae_scores.png)
+![Residual Plots](./reports/figures/residual_plots.png)
+
+
 - 
 ## 6. Conclusion / Recommendations
 - Model was good
